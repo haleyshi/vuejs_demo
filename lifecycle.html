@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>Growler</title>
+    <title>App</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,10 +11,10 @@
 
 <body>
     <div class="container">
-        <div id="growler">
+        <div id="app">
             <p>Please check the console window</p>
 
-            Update Button Clicks: <span>{{ counter }}</span>
+            Update Button Clicks: <span v-text="counter"></span>
             <br />
             <button class="btn btn-primary" v-on:click="onUpdateClick">Update</button>
 
@@ -29,7 +30,7 @@
             growler.$destroy();
         });
         var growler = new Vue({
-            el: '#growler',
+            el: '#app',
             data: {
                 counter: 0
             },

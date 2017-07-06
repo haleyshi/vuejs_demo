@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <style>
+        .headers {
+            font-family: 'Verdana';
+            margin: 0;
+        }
+        
+        .accent-color {
+            color: #FF6A00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <h2 v-bind:class="{'headers': true, 'accent-color': isOnline}">{{ appName }}</h2>
+            <h2 v-text="appName" v-bind:class="[accentColor, headers]"></h2>
+            <h2 v-once>{{ appName }}</h2>
+            <h2 v-text="appName" v-bind:style="{ color:isOnline ? '#FF6A00' : '#000000' }"></h2>
+            <h2 v-html="appLink"></h2>
+            <img alt="Accoona" :src="appLogo" style="height:36px;" />
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.2.5/dist/vue.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var growler = new Vue({
+            el: document.getElementById('app'),
+            data: {
+                appName: 'Growler',
+                appLink: '<a href="/">Growler</a>',
+                appLogo: 'https://upload.wikimedia.org/wikipedia/en/0/06/Accoona_logo.png',
+                accentColor: 'accent-color',
+                headers: 'headers',
+                isOnline: false,
+            },
+        });
+    </script>
+</body>
+
+</html>

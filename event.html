@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <input v-model.lazy.trim="query1" type="search" placeholder="search...">
+            <button v-on:click="executeSearch1">ClickEvent</button>
+            <button v-on:click="executeSearchWithParameter('token', $event)">PassParameters</button>
+            <button @click="executeSearch1">ShortV</button>
+            <br /><br />
+
+            <div v-on:click="buttonGrandparentClick" style="background-color:burlywood; width: 300px">
+                <div v-on:click="buttonParentClick" style="background-color:bisque; width: 200px">
+                    <button v-on:click="executeSearch1">EventBubbling</button>
+                </div>
+            </div>
+            <br />
+
+            <div v-on:click.capture="buttonGrandparentClick" style="background-color:burlywood; width: 300px">
+                <div v-on:click.capture="buttonParentClick" style="background-color:bisque; width: 200px">
+                    <button v-on:click.capture="executeSearch1">EventCapturing</button>
+                </div>
+            </div>
+            <br />
+
+            <div v-on:click="buttonGrandparentClick" style="background-color:burlywood; width: 300px">
+                <div v-on:click="buttonParentClick" style="background-color:bisque; width: 200px">
+                    <button v-on:click.stop="executeSearch1">EventStopper</button>
+                </div>
+            </div>
+            <br />
+
+            <div v-on:click="buttonGrandparentClick" style="background-color:burlywood; width: 300px">
+                <div v-on:click.self="buttonParentClick" style="background-color:bisque; width: 200px">
+                    <button v-on:click="executeSearch1">SelfModifier</button>
+                </div>
+            </div>
+            <br />
+
+            <form action="#" method="GET">
+                <input v-model="query2" id="query2" name="query2" />
+                <button type="submit" v-on:click.prevent="executeSearch2">PreventDefault</button>
+            </form>
+            <br />
+
+            <input type="search" v-model="query3" v-bind:disabled="isRunning" />
+            <button type="button" v-on:click.once="executeSearch3" v-bind:disabled="isRunning">Once</button>
+            <br />
+            <br />
+
+            <form v-on:submit.prevent action="#" method="GET">
+                <input type="search" v-model="query4" v-on:keyup="evaluateKey" v-on:keyup.enter="executeSearch4" />
+                <button type="button" v-on:click.once="executeSearch4">KeyPress</button>
+            </form>
+            <br />
+            <br />
+
+            <input type="search" v-model="query5" v-on:keydown.f1="openInfo" />
+            <br />
+            <br />
+
+            <div v-on:click="onBlockClick" style="background-color:burlywood; width: 400px">
+                Click in this area with the left mouse button.
+            </div>
+            <br />
+
+            <div v-on:mousedown.middle="onBlockClick" style="background-color:burlywood; width: 400px">
+                Click in this area with the middle mouse button.
+            </div>
+            <br />
+
+            <div v-on:mousedown.right="onBlockClick" style="background-color:burlywood; width: 400px">
+                Click in this area with the right mouse button.
+            </div>
+            <br />
+
+            <div v-on:contextmenu.prevent="onRightClick" style="background-color:burlywood; width: 400px">
+                Click in this area with the right mouse button.
+            </div>
+            <ul id="myContextMenu" v-if="showContextMenu" v-on:blur="closeContextMenu" v-bind:style="{top:top, left:left}">
+                <li><a href="#" v-on:click="onCopyClick">Copy</a></li>
+                <li><a href="#" v-on:click="onPasteClick">Paste</a></li>
+            </ul>
+            <br />
+            <br />
+
+            <input type="search" v-model.trim="query6" v-on:keypress.enter.prevent="executeNewSearch" v-on:keyup.ctrl.enter="executeSearchInNewWindow" placeholder="please enter your query here." />
+            <br />
+            <br />
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.2.5/dist/vue.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var growler = new Vue({
+            el: '#app',
+            data: {
+                query1: '',
+                query2: '',
+                query3: '',
+                isRunning: false,
+                query4: '',
+                query5: '',
+                showContextMenu: false,
+                top: '0px',
+                left: '0px',
+                query6: '',
+            },
+            methods: {
+                executeSearch1: function(event) {
+                    console.log("click button: " + event.target.innerText);
+                    console.log("search with keywords: " + this.query1);
+                },
+
+                executeSearch2: function(event) {
+                    console.log("click button: " + event.target.innerText);
+                    if (this.query2) {
+                        alert("submit with keywords: " + this.query2);
+                        document.forms[0].submit();
+                    } else {
+                        console.log("Please enter a value.");
+                    }
+                },
+
+                executeSearch3: function(event) {
+                    console.log("click button: " + event.target.innerText);
+                    console.log("search with keywords: " + this.query3);
+                    this.isRunning = true;
+                },
+
+                executeSearch4: function(event) {
+                    console.log("click button: " + event.target.innerText);
+                    console.log("search with keywords: " + this.query4);
+                },
+
+                executeSearchWithParameter: function(t, e) {
+                    console.log('Token: ' + t);
+                    console.log("click button: " + e.target.innerText);
+                    console.log("search with keywords: " + this.query1);
+                },
+
+                buttonParentClick: function(event) {
+                    console.log("Button Parent clicked.");
+                },
+
+                buttonGrandparentClick: function(event) {
+                    console.log("Button Grandparent clicked.");
+                },
+
+                evaluateKey: function(event) {
+                    var c = event.keyCode ? event.keyCode : event.which;
+                    console.log("Key Pressed: " + c);
+                },
+
+                openInfo: function(event) {
+                    console.log("OpenInfo: " + this.query5);
+                },
+
+                onBlockClick: function(event) {
+                    console.log("Block Click: " + event.button);
+                },
+
+                onRightClick: function(event) {
+                    console.log("Hello!");
+                    if (event.button === 2) {
+                        this.showContextMenu = true;
+                        this.top = event.y + "px";
+                        this.left = event.x + 'px';
+                    }
+                },
+
+                onCopyClick: function(event) {
+                    console.log("Copy Click");
+                    this.closeContextMenu();
+                },
+
+                onPasteClick: function(event) {
+                    console.log("Paste Click");
+                    this.closeContextMenu();
+                },
+
+                closeContextMenu: function(event) {
+                    console.log("Go away!");
+                    this.showContextMenu = false;
+                },
+
+                executeNewSearch: function(event) {
+                    console.log("search");
+                },
+
+                executeSearchInNewWindow: function(event) {
+                    console.log("search in new window");
+                },
+            }
+        });
+
+        // Define custom modifiers
+        Vue.config.keyCodes = {
+            f1: 112,
+        };
+
+        // Enter: 13, enter
+        // Tab: 9, tab
+        // Delete: 8, delete
+        // Escape: 18, esc
+        // Space: 32, space
+        // Up: 38, up
+        // Down: 40, down
+        // Left: 37, left
+        // Right 39, right
+
+
+        // Alt: 18, alt
+        // Ctrl: 17, ctrl
+        // Meta: 91, meta  -- Windows or Command Key
+        // Shift: 16, shift
+    </script>
+</body>
+
+</html>
