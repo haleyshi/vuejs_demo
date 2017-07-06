@@ -1,9 +1,11 @@
+## JS Resource URL:
 
+[Lateset](https://unpkg.com/vue)
 
-https://unpkg.com/vue                        - Lateset
-https://unpkg.com/vue@2.3.4                  - With Version
-https://unpkg.com/vue/dist/vue.min.js        - Minimal Latest
-https://unpkg.com/vue@2.3.4/dist/vue.min.js  - Minimal with Version
+[With Version](https://unpkg.com/vue@2.3.4)
 
+[Minimal Latest](https://unpkg.com/vue/dist/vue.min.js)
 
-https://unpkg.com/axios/dist/axios.min.js
+[Minimal with Version](https://unpkg.com/vue@2.3.4/dist/vue.min.js)
+
+[AXIOS MIN](https://unpkg.com/axios/dist/axios.min.js)
