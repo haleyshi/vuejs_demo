@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>App</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://unpkg.com/jquery@3.2.1/dist/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div id="app">
+            <input v-model.lazy.trim="query" type="search" placeholder="search...">
+            <button v-on:click="showLinks">Search</button>
+            <button v-on:click="hideLinks">Hide</button>
+            <br />
+            <div id="myLinks" v-if="listLinks" v-on:blur="hideLinks" v-bind:style="{top:top, left:left}">
+                <div v-html="links"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.2.5/dist/vue.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var growler = new Vue({
+            el: '#app',
+            data: {
+                listLinks: false,
+                top: '0px',
+                left: '0px',
+                links: 'loading data...',
+                query: '',
+            },
+            methods: {
+                showLinks: function(event) {
+                    this.listLinks = true;
+                    this.top = event.y + "px";
+                    this.left = event.x + "px";
+
+                    var _this = this;
+                    $.getJSON("https://www.googleapis.com/customsearch/v1?key=AIzaSyDtgicRGrPSzDtdfzmh-DgWv-NQ6KyNH4w&cx=017576662512468239146:omuauf_lfve&q=" + this.query, function(data) {
+                        var html = "<ul>";
+                        for (var i = 0; i < data["items"].length; i++) {
+                            html += '<li><a href="' + data["items"][i]["link"] + '">' + data["items"][i]["title"] + '</a></li>';
+                        }
+                        html += "</ul>";
+                        _this.links = html;
+                    });
+                },
+
+                hideLinks: function(event) {
+                    this.listLinks = false;
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>
