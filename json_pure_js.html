@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title>Customers</title>
+</head>
+
+<body>
+    <div id="content"></div>
+    <script>
+        function hndlr(response) {
+            for (var i = 0; i < response.length; i++) {
+                var item = response[i];
+                // in production code, item.htmlTitle should have the HTML entities escaped.
+                document.getElementById("content").innerHTML += "<br>" + item;
+            }
+        }
+    </script>
+    <script src="http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=hndlr">
+    </script>
+</body>
+
+</html>
